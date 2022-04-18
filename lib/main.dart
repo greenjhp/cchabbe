@@ -49,7 +49,7 @@ class _HomepageState extends State<Homepage> {
           setState(() {
             currentIndex = value;
           });
-        },
+        }, //git branch na2등록을 위한 변경
         currentIndex: currentIndex,
         iconSize: 24,
         unselectedItemColor: CchabbeColor.grey2,
