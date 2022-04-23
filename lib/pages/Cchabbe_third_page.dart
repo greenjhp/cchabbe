@@ -17,7 +17,7 @@ class CchabbeThirdPage extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        backgroundColor: CchabbeColor.blue,
+        backgroundColor: CchabbeColor.black,
       ),
     );
   }

@@ -7,6 +7,10 @@ import 'package:cchabbe/pages/Cchabbe_second_page.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../auth_service.dart';
+import '../main.dart';
 
 class CchabbeFirstPage extends StatelessWidget {
   const CchabbeFirstPage({Key? key}) : super(key: key);
@@ -18,7 +22,7 @@ class CchabbeFirstPage extends StatelessWidget {
         preferredSize: Size.fromHeight(25.0),
         child: AppBar(
           elevation: 0,
-          backgroundColor: CchabbeColor.blue,
+          backgroundColor: CchabbeColor.black,
         ),
       ),
       body: Container(
@@ -26,7 +30,7 @@ class CchabbeFirstPage extends StatelessWidget {
         child: ListView(
           children: [
             Container(
-              color: CchabbeColor.blue,
+              color: CchabbeColor.black,
               height: 188,
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
@@ -214,6 +218,16 @@ class CchabbeFirstPage extends StatelessWidget {
                         },
                       ),
                     ),
+                    TextButton(
+                        child: Text("로그아웃"),
+                        onPressed: () {
+                          context.read<AuthService>().signOut();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          );
+                        })
                   ],
                 ),
               ),
