@@ -1,3 +1,4 @@
+import 'package:cchabbe/config/colors.dart';
 import 'package:flutter/material.dart';
 
 class CchabbeThirdPage extends StatelessWidget {
@@ -5,8 +6,19 @@ class CchabbeThirdPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('알림페이지'),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'MY',
+          style: TextStyle(
+            fontSize: 18,
+            color: CchabbeColor.bluegrey,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        backgroundColor: CchabbeColor.blue,
+      ),
     );
   }
 }

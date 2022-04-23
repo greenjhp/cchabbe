@@ -20,30 +20,13 @@ class CchabbeForthPage extends StatelessWidget {
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            child: TextButton(
-              onPressed: () {},
-              child: Container(
-                color: Colors.red,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      '프로필 수정하기',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: '닉네임',
+              hintText: '힘쎈 곽두철',
+              border: OutlineInputBorder(),
             ),
           ),
         ],
