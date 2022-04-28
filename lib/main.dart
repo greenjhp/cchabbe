@@ -196,7 +196,7 @@ class _HomepageState extends State<Homepage> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "채팅"),
           BottomNavigationBarItem(icon: Icon(Icons.new_releases), label: "알림"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "MY"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "차고"),
         ],
       ),
     );
