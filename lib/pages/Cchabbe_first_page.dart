@@ -9,7 +9,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class CchabbeFirstPage extends StatelessWidget {
-  const CchabbeFirstPage({Key? key}) : super(key: key);
+  const CchabbeFirstPage({key}) : super(key: key);
 // 홈화면
   @override
   Widget build(BuildContext context) {

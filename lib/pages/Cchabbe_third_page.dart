@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CchabbeThirdPage extends StatelessWidget {
-  const CchabbeThirdPage({Key? key}) : super(key: key);
+  const CchabbeThirdPage({key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

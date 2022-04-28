@@ -1,4 +1,4 @@
-package com.example.cchabbe
+package com.company.cchabbe
 
 import io.flutter.embedding.android.FlutterActivity
 
