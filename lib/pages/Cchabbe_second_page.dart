@@ -8,7 +8,7 @@ class CchabbeSecondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CchabbeColor.blue,
+        backgroundColor: CchabbeColor.black,
         centerTitle: true,
         title: Text(
           '채팅',
