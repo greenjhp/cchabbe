@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'auth_service.dart';
+import 'data_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +17,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
+        ChangeNotifierProvider(create: (context) => DataService()),
       ],
       child: const MyApp(),
     ),
@@ -136,6 +138,12 @@ class _LoginPageState extends State<LoginPage> {
                         email: numberController.text,
                         password: passwordController.text,
                         onSuccess: () {
+                          authService.createUsers(
+                              uid: authService.currentUser()!.uid,
+                              car_number: '111',
+                              phone: '222',
+                              nickname: '초사이언 손오공');
+
                           // 회원가입 성공
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("회원가입 성공"),
