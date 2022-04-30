@@ -1,71 +1,24 @@
 import 'package:cchabbe/config/colors.dart';
-import 'package:cchabbe/pages/Cchabbe_profile_page.dart';
-import 'package:flutter/material.dart';
 
-class CchabbeForthPage extends StatelessWidget {
+import 'package:cchabbe/src/controller/profile_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class CchabbeForthPage extends GetView<ProfileController> {
   const CchabbeForthPage({Key? key}) : super(key: key);
 
   Widget _profileImage(BuildContext context) {
-    return Center(
+    return Padding(
+      padding: EdgeInsets.only(top: 50),
       child: Container(
-        padding: EdgeInsets.only(top: 50),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: CchabbeColor.ovals,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    width: 108,
-                    height: 108,
-                  ),
-                ),
-                Center(
-                  child: Icon(
-                    Icons.photo,
-                    size: 108,
-                    color: CchabbeColor.white,
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 140,
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: CchabbeColor.black,
-                      border: Border.all(
-                        width: 2,
-                      ),
-                      shape: BoxShape.circle,
-                    ),
-                    child: TextButton(
-                      child: Text(
-                        '편집',
-                        style: TextStyle(
-                          fontSize: 10.5,
-                          fontWeight: FontWeight.w600,
-                          color: CchabbeColor.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CchabbeProfilePage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+        width: 140,
+        height: 140,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(
+            "https://media.istockphoto.com/vectors/image-preview-icon-picture-placeholder-for-website-or-uiux-design-vector-id1222357475?k=20&m=1222357475&s=170667a&w=0&h=YGycIDbBRAWkZaSvdyUFvotdGfnKhkutJhMOZtIoUKY=",
+            fit: BoxFit.fill,
+          ),
         ),
       ),
     );
@@ -143,6 +96,36 @@ class CchabbeForthPage extends StatelessWidget {
     );
   }
 
+  Widget _profileEdit() {
+    return Obx(
+      () => controller.isEditMyProfile.value
+          ? Container()
+          : Padding(
+              padding: const EdgeInsets.only(top: 40.0),
+              child: TextButton(
+                onPressed: () {
+                  controller.toggleEditProfile;
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.edit,
+                      color: CchabbeColor.bluegrey,
+                    ),
+                    Text(
+                      '프로필 편집',
+                      style: TextStyle(
+                        color: CchabbeColor.bluegrey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,15 +147,7 @@ class CchabbeForthPage extends StatelessWidget {
             _profileImage(context),
             _profileNickname(),
             _profileCarnumber(),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CchabbeProfilePage()),
-                );
-              },
-              child: Text('프로필 수정하기'),
-            )
+            _profileEdit(),
           ],
         ),
       ),
