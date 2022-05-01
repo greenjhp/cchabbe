@@ -3,13 +3,15 @@ import 'package:cchabbe/pages/Cchabbe_first_page.dart';
 import 'package:cchabbe/pages/Cchabbe_forth_page.dart';
 import 'package:cchabbe/pages/Cchabbe_second_page.dart';
 import 'package:cchabbe/pages/Cchabbe_third_page.dart';
-import 'package:cchabbe/src/controller/profile_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'auth_service.dart';
+import 'users_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +20,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
+        ChangeNotifierProvider(create: (context) => UsersService()),
       ],
       child: const MyApp(),
     ),
@@ -32,9 +35,6 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cchabbe',
-      initialBinding: BindingsBuilder(() {
-        Get.lazyPut<ProfileController>(() => ProfileController());
-      }),
       home: LoginPage(),
     );
   }
@@ -177,33 +177,41 @@ class _HomepageState extends State<Homepage> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: [
-          CchabbeFirstPage(),
-          CchabbeSecondPage(),
-          CchabbeThirdPage(),
-          CchabbeForthPage(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
-        },
-        currentIndex: currentIndex,
-        iconSize: 24,
-        unselectedItemColor: CchabbeColor.grey2,
-        selectedItemColor: CchabbeColor.bluegrey,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "채팅"),
-          BottomNavigationBarItem(icon: Icon(Icons.new_releases), label: "알림"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "차고"),
-        ],
-      ),
+    return Consumer<UsersService>(
+      builder: (context, usersService, child) {
+        final authService = context.read<AuthService>();
+        User user = authService.currentUser()!;
+
+        return Scaffold(
+          body: IndexedStack(
+            index: currentIndex,
+            children: [
+              CchabbeFirstPage(),
+              CchabbeSecondPage(),
+              CchabbeThirdPage(),
+              CchabbeForthPage(),
+            ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            onTap: (value) {
+              setState(() {
+                currentIndex = value;
+              });
+            },
+            currentIndex: currentIndex,
+            iconSize: 24,
+            unselectedItemColor: CchabbeColor.grey2,
+            selectedItemColor: CchabbeColor.bluegrey,
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "홈"),
+              BottomNavigationBarItem(icon: Icon(Icons.chat), label: "채팅"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.new_releases), label: "알림"),
+              BottomNavigationBarItem(icon: Icon(Icons.person), label: "차고"),
+            ],
+          ),
+        );
+      },
     );
   }
 }

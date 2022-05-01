@@ -1,38 +1,20 @@
+import 'package:cchabbe/auth_service.dart';
 import 'package:cchabbe/config/colors.dart';
-import 'package:cchabbe/pages/Profile_edit_page.dart';
+import 'package:cchabbe/pages/Cchabbe_forth_page.dart';
 import 'package:cchabbe/users_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../auth_service.dart';
-
-class CchabbeForthPage extends StatelessWidget {
-  const CchabbeForthPage({Key? key}) : super(key: key);
-
-  Widget _profileImage(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 50),
-      child: Container(
-        width: 140,
-        height: 140,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.network(
-            "https://media.istockphoto.com/vectors/image-preview-icon-picture-placeholder-for-website-or-uiux-design-vector-id1222357475?k=20&m=1222357475&s=170667a&w=0&h=YGycIDbBRAWkZaSvdyUFvotdGfnKhkutJhMOZtIoUKY=",
-            fit: BoxFit.fill,
-          ),
-        ),
-      ),
-    );
-  }
+class ProfileEditPage extends StatelessWidget {
+  TextEditingController nicknameController = TextEditingController();
+  TextEditingController car_numberController = TextEditingController();
 
   Widget _profileNickname() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(54, 37, 54, 0),
+      padding: const EdgeInsets.fromLTRB(54, 31, 54, 0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -52,13 +34,19 @@ class CchabbeForthPage extends StatelessWidget {
             width: 34,
           ),
           Expanded(
-            child: Text(
-              '힘쎈 곽두철',
+            child: TextField(
+              controller: nicknameController,
+              decoration: InputDecoration(
+                hintText: '힘쎈 곽두철',
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  color: CchabbeColor.white.withOpacity(0.6),
+                ),
+              ),
               style: TextStyle(
-                color: CchabbeColor.white.withOpacity(0.6),
+                color: CchabbeColor.white,
                 fontSize: 18,
                 fontWeight: FontWeight.w300,
-                fontStyle: FontStyle.italic,
               ),
             ),
           ),
@@ -86,16 +74,22 @@ class CchabbeForthPage extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 16,
+            width: 20,
           ),
           Expanded(
-            child: Text(
-              '123가 4567',
+            child: TextField(
+              controller: car_numberController,
+              decoration: InputDecoration(
+                hintText: '차량 번호를 입력해주세요',
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  color: CchabbeColor.white.withOpacity(0.6),
+                ),
+              ),
               style: TextStyle(
-                color: CchabbeColor.white.withOpacity(0.6),
+                color: CchabbeColor.white,
                 fontSize: 18,
                 fontWeight: FontWeight.w300,
-                fontStyle: FontStyle.italic,
               ),
             ),
           ),
@@ -109,6 +103,7 @@ class CchabbeForthPage extends StatelessWidget {
     return Consumer<UsersService>(builder: (context, usersService, child) {
       final authService = context.read<AuthService>();
       User user = authService.currentUser()!;
+
       return Scaffold(
         appBar: AppBar(
           backgroundColor: CchabbeColor.black,
@@ -122,27 +117,24 @@ class CchabbeForthPage extends StatelessWidget {
             ),
           ),
           actions: [
-            IconButton(
+            TextButton(
               onPressed: () {
+                if (nicknameController.text.isNotEmpty) {
+                  usersService.create(nicknameController.text,
+                      car_numberController.text, user.uid);
+                }
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfileEditPage(),
+                    builder: (context) => CchabbeForthPage(),
                   ),
                 );
               },
-              icon: Icon(
-                Icons.edit,
-                color: CchabbeColor.white,
+              child: Text(
+                '완료',
+                style: TextStyle(color: CchabbeColor.white),
               ),
-            ),
-            // TextButton(
-            //   child: Text(
-            //     "프로필",
-            //     style: TextStyle(color: CchabbeColor.white),
-            //   ),
-            //   onPressed: () {},
-            // )
+            )
           ],
         ),
         body: Container(
@@ -151,39 +143,7 @@ class CchabbeForthPage extends StatelessWidget {
             children: [
               //_profileImage(context), 이미지는 MVP에서 빼는게 좋을 것 같아요..ㅠ
               _profileNickname(),
-              SizedBox(
-                height: 10,
-              ),
               _profileCarnumber(),
-              Container(),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 40.0),
-              //   child: TextButton(
-              //     onPressed: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => ProfileEditPage(),
-              //         ),
-              //       );
-              //     },
-              //     child: Column(
-              //       children: [
-              //         Icon(
-              //           Icons.edit,
-              //           color: CchabbeColor.bluegrey,
-              //         ),
-              //         Text(
-              //           '프로필 편집',
-              //           style: TextStyle(
-              //             color: CchabbeColor.bluegrey,
-              //             fontWeight: FontWeight.bold,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
