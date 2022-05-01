@@ -31,16 +31,6 @@ class _CchabbeFirstPageState extends State<CchabbeFirstPage> {
   Widget build(BuildContext context) {
     return Consumer2<AuthService, DataService>(
         builder: (context, authService, dataService, child) {
-      // Future a() async {
-      //   var user = await authService.currentUser();
-      //   var userNickname =
-      //       (await dataService.readMyUsersInfo(authService.currentUser()!.uid))
-      //           .docs[0]
-      //           .get('nickname');
-
-      //   return userNickname;
-      // }
-
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(25.0),
@@ -64,20 +54,26 @@ class _CchabbeFirstPageState extends State<CchabbeFirstPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            // dataService.readMyUsersInfo(user!.uid).toString(),
-                            // userNickname,
-
-                            // a().toString(),
-
-                            '힘쎈 곽두철',
-
-                            style: TextStyle(
-                              color: CchabbeColor.bluegrey,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ), //사용자 닉네임 받아오기\
+                          //사용자 닉네임 받아오기
+                          FutureBuilder<QuerySnapshot>(
+                              future: dataService.readMyUsersInfo(
+                                  authService.currentUser()!.uid),
+                              builder: (context, snapshot) {
+                                final documents = snapshot.data?.docs ?? [];
+                                if (documents.isEmpty) {
+                                  return Text('닉네임을 설정해주세요');
+                                }
+                                final doc = documents[0];
+                                String nickname = doc.get('nickname');
+                                return Text(
+                                  nickname,
+                                  style: TextStyle(
+                                    color: CchabbeColor.bluegrey,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                );
+                              }),
                           SizedBox(height: 16),
                           //차량버튼 입력 후에는 입력한 차량번호로 보여주기
                           TextButton(
