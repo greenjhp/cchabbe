@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AuthService extends ChangeNotifier {
@@ -39,6 +40,25 @@ class AuthService extends ChangeNotifier {
       // Firebase auth 이외의 에러 발생
       onError(e.toString());
     }
+  }
+
+  // usersCollect에 추가
+  final userCollection = FirebaseFirestore.instance.collection('users');
+
+  void createUsers({
+    required String uid,
+    required String car_number,
+    required String phone,
+    required String nickname,
+  }) async {
+    // message 만들기
+    await userCollection.add({
+      'uid': uid, // 유저 식별자
+      'car_number': car_number, // 차량번호
+      'phone': phone, // 전화번호
+      'nickname': nickname // 별명
+    });
+    notifyListeners(); // 화면 갱신
   }
 
   void signIn({
