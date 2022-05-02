@@ -11,11 +11,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'auth_service.dart';
-<<<<<<< HEAD
 import 'data_service.dart';
-=======
-import 'users_service.dart';
->>>>>>> c79814cd4cfcd3b29b33dbbaf86106aff3421c3d
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +20,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
-<<<<<<< HEAD
         ChangeNotifierProvider(create: (context) => DataService()),
-=======
-        ChangeNotifierProvider(create: (context) => UsersService()),
->>>>>>> c79814cd4cfcd3b29b33dbbaf86106aff3421c3d
       ],
       child: const MyApp(),
     ),
@@ -191,7 +183,7 @@ class _HomepageState extends State<Homepage> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Consumer<UsersService>(
+    return Consumer<DataService>(
       builder: (context, usersService, child) {
         final authService = context.read<AuthService>();
         User user = authService.currentUser()!;

@@ -7,4 +7,13 @@ class DataService extends ChangeNotifier {
   Future<QuerySnapshot> readMyUsersInfo(String uid) async {
     return usersCollection.where('uid', isEqualTo: uid).get();
   }
+
+  void create(String nickname, String car_number, String uid) async {
+    await usersCollection.add({
+      'uid': uid,
+      'nickname': nickname,
+      'car_number': car_number,
+    });
+    notifyListeners();
+  }
 }

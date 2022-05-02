@@ -1,7 +1,7 @@
 import 'package:cchabbe/auth_service.dart';
 import 'package:cchabbe/config/colors.dart';
 import 'package:cchabbe/pages/Cchabbe_forth_page.dart';
-import 'package:cchabbe/users_service.dart';
+import 'package:cchabbe/data_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -100,7 +100,7 @@ class ProfileEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UsersService>(builder: (context, usersService, child) {
+    return Consumer<DataService>(builder: (context, usersService, child) {
       final authService = context.read<AuthService>();
       User user = authService.currentUser()!;
 
